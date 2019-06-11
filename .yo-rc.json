@@ -1,0 +1,35 @@
+{
+  "generator-jhipster": {
+    "promptValues": {
+      "packageName": "com.hpe.observability"
+    },
+    "jhipsterVersion": "6.0.1",
+    "applicationType": "microservice",
+    "baseName": "NfSample",
+    "packageName": "com.hpe.observability",
+    "packageFolder": "com/hpe/observability",
+    "serverPort": "8080",
+    "authenticationType": "jwt",
+    "cacheProvider": "no",
+    "enableHibernateCache": false,
+    "websocket": false,
+    "databaseType": "no",
+    "devDatabaseType": "no",
+    "prodDatabaseType": "no",
+    "searchEngine": false,
+    "messageBroker": false,
+    "serviceDiscoveryType": false,
+    "buildTool": "maven",
+    "enableSwaggerCodegen": false,
+    "jwtSecretKey": "YmI0ZWJlY2NhM2NlOWUzZWZiMjRjMWI4ZDA0N2NmNDRjODU2OWE1MWI4ZWY3ZmZmNGQ1Yzg1YjIxMzAxZTgwNzg3ZWU0MWVhZWQ1MWMyNGE2OGVhNzM5MGVmYmNkYTE2NzZhNjkwNTlkYTdmNmFjNmI4NzJmZGRlYzI3YThiNWE=",
+    "testFrameworks": [],
+    "jhiPrefix": "jhi",
+    "entitySuffix": "",
+    "dtoSuffix": "DTO",
+    "otherModules": [],
+    "enableTranslation": false,
+    "clientPackageManager": "npm",
+    "skipClient": true,
+    "skipUserManagement": true
+  }
+}
