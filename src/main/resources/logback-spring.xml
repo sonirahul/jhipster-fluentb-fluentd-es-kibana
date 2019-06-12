@@ -3,9 +3,12 @@
 
 <configuration scan="true">
     <include resource="org/springframework/boot/logging/logback/base.xml"/>
+    <springProperty scope="context" name="fluentHost"
+        source="NfSample.logback.fluentbit.host" defaultValue="localhost"/>
+    <springProperty scope="context" name="fluentPort"
+        source="NfSample.logback.fluentbit.port"/>
 
 <!-- The FILE and ASYNC appenders are here as examples for a production configuration -->
-<!--
     <appender name="FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
         <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
             <fileNamePattern>logFile.%d{yyyy-MM-dd}.log</fileNamePattern>
@@ -17,15 +20,48 @@
         </encoder>
     </appender>
 
-    <appender name="ASYNC" class="ch.qos.logback.classic.AsyncAppender">
-        <queueSize>512</queueSize>
-        <appender-ref ref="FILE"/>
+    <appender name="fluentb" class="ch.qos.logback.more.appenders.DataFluentAppender" additivity="false">
+
+        <tag>com.hpe</tag>
+        <label>observability</label>
+        <remoteHost>${fluentHost}</remoteHost>
+        <port>${fluentPort}</port>
+        <useEventTime>true</useEventTime>
+
+
+        <!--<layout class="ch.qos.logback.contrib.json.classic.JsonLayout">
+          <jsonFormatter class="ch.qos.logback.contrib.jackson.JacksonJsonFormatter">
+          </jsonFormatter>
+          <timestampFormat>yyyy-MM-dd' 'HH:mm:ss.SSS</timestampFormat>
+        </layout>-->
+        <encoder class="ch.qos.logback.core.encoder.LayoutWrappingEncoder">
+            <layout class="ch.qos.logback.contrib.json.classic.JsonLayout">
+                <timestampFormat>yyyy-MM-dd'T'HH:mm:ss.SSSX</timestampFormat>
+                <!--<timestampFormatTimezoneId>Etc/UTC</timestampFormatTimezoneId>-->
+
+                <jsonFormatter class="ch.qos.logback.contrib.jackson.JacksonJsonFormatter">
+                    <prettyPrint>true</prettyPrint>
+                </jsonFormatter>
+            </layout>
+        </encoder>
+
     </appender>
 
+    <!--<appender name="ASYNC" class="ch.qos.logback.classic.AsyncAppender">
+        <queueSize>512</queueSize>
+        <appender-ref ref="FILE"/>
+    </appender>-->
+
     <root level="${logging.level.root}">
-        <appender-ref ref="ASYNC"/>
+        <!--<appender-ref ref="ASYNC"/>-->
+        <appender-ref ref="fluentb" />
+        <appender-ref ref="FILE"/>
     </root>
--->
+
+    <logger name="com.hpe.observability" additivity="false" level="debug">
+        <appender-ref ref="fluentb"/>
+        <appender-ref ref="FILE"/>
+    </logger>
 
     <logger name="javax.activation" level="WARN"/>
     <logger name="javax.mail" level="WARN"/>

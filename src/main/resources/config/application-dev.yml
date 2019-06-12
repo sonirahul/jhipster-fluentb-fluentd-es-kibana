@@ -104,3 +104,8 @@ jhipster:
 # ===================================================================
 
 # application:
+NfSample:
+  logback:
+    fluentbit:
+      host: localhost
+      port: 24224
