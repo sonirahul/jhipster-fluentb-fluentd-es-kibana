@@ -61,7 +61,7 @@
         <appender-ref ref="FILE"/>
     </root>
 
-    <logger name="com.hpe.observability" additivity="false" level="debug">
+    <logger name="com.hpe.observability" additivity="false" level="trace">
         <appender-ref ref="fluentb"/>
         <appender-ref ref="FILE"/>
     </logger>
