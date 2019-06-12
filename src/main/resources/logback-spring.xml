@@ -10,7 +10,15 @@
     <springProperty scope="context" name="fluentPort"
         source="NfSample.logback.fluentbit.port"/>
 
-<!-- The FILE and ASYNC appenders are here as examples for a production configuration -->
+    <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <pattern>
+                %d{dd-MM-yyyy HH:mm:ss.SSS} %magenta([%thread]) %highlight(%-5level) %logger.%M - %msg%n
+            </pattern>
+        </encoder>
+    </appender>
+
+    <!-- The FILE and ASYNC appenders are here as examples for a production configuration -->
     <appender name="FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
         <file>${LOG_DIR}/logFile.log</file>
         <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
@@ -52,18 +60,20 @@
 
     <!--<appender name="ASYNC" class="ch.qos.logback.classic.AsyncAppender">
         <queueSize>512</queueSize>
+        <appender-ref ref="fluentb" />
         <appender-ref ref="FILE"/>
     </appender>-->
 
     <root level="${logging.level.root}">
-        <!--<appender-ref ref="ASYNC"/>-->
-        <appender-ref ref="fluentb" />
+        <appender-ref ref="fluentb"/>
         <appender-ref ref="FILE"/>
+        <appender-ref ref="STDOUT"/>
     </root>
 
     <logger name="com.hpe.observability" additivity="false" level="trace">
         <appender-ref ref="fluentb"/>
         <appender-ref ref="FILE"/>
+        <appender-ref ref="STDOUT"/>
     </logger>
 
     <logger name="javax.activation" level="WARN"/>
