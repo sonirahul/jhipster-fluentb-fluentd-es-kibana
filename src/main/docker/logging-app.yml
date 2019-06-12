@@ -1,0 +1,60 @@
+version: "3"
+
+services:
+    nfsample-app:
+        image: justinsam/logging-nf-sample
+        container_name: logging-nf-sample
+        environment:
+        - _JAVA_OPTIONS=-Xmx512m -Xms256m
+        - SPRING_PROFILES_ACTIVE=prod,swagger
+        - MANAGEMENT_METRICS_EXPORT_PROMETHEUS_ENABLED=true
+        - JHIPSTER_SLEEP=10 # gives time for the database to boot before the application
+        - NfSample.logback.fluentbit.host=192.168.200.201
+        - NfSample.logback.fluentbit.port=7777
+        ports:
+        - "8080:8080"
+        volumes:
+        - ./fluentbit:/logs
+
+    fluentb:
+        image: fluent/fluent-bit
+        container_name: fluentb
+        volumes:
+        - ./fluentbit:/fluent-bit/etc
+        command:
+            ["/fluent-bit/bin/fluent-bit", "-c", "/fluent-bit/etc/fluentbit.conf"]
+        restart: unless-stopped
+        ports:
+        - "2020:2020"
+        - "5170:5170"
+        - "7777:7777"
+
+    fluentd:
+        image: qqbuby/fluentd:v1.2-es
+        container_name: fluentd
+        ports:
+        - "24224:24224"
+        - "5140:5140"
+        volumes:
+        - ./fluentd:/fluentd/etc
+
+    elasticsearch:
+        image: docker.elastic.co/elasticsearch/elasticsearch:6.5.4
+        container_name: elasticsearch
+        environment:
+            discovery.type: single-node
+        volumes:
+        - ./elasticsearch:/usr/share/elasticsearch/data
+        ports:
+        - "9200:9200"
+        - "9300:9300"
+
+    kibana:
+        image: docker.elastic.co/kibana/kibana:6.5.4
+        container_name: kibana
+        environment:
+            ELASTICSEARCH_URL: "http://elasticsearch:9200"
+        ports:
+        - "5601:5601"
+        depends_on:
+        - elasticsearch

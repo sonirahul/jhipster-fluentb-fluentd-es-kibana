@@ -27,7 +27,8 @@
         </rollingPolicy>
         <encoder>
             <charset>utf-8</charset>
-            <Pattern>%d %-5level [%thread] %logger{0}: %msg%n</Pattern>
+            <!--<Pattern>%d %-5level [%thread] %logger{0}: %msg%n</Pattern>-->
+            <Pattern>%msg%n</Pattern>
         </encoder>
     </appender>
 
@@ -65,13 +66,13 @@
     </appender>-->
 
     <root level="${logging.level.root}">
-        <appender-ref ref="fluentb"/>
+        <!--<appender-ref ref="fluentb"/>-->
         <appender-ref ref="FILE"/>
         <appender-ref ref="STDOUT"/>
     </root>
 
     <logger name="com.hpe.observability" additivity="false" level="trace">
-        <appender-ref ref="fluentb"/>
+        <!--<appender-ref ref="fluentb"/>-->
         <appender-ref ref="FILE"/>
         <appender-ref ref="STDOUT"/>
     </logger>
