@@ -2,6 +2,8 @@
 <!DOCTYPE configuration>
 
 <configuration scan="true">
+    <property name="LOG_DIR" value="logs"/>
+
     <include resource="org/springframework/boot/logging/logback/base.xml"/>
     <springProperty scope="context" name="fluentHost"
         source="NfSample.logback.fluentbit.host" defaultValue="localhost"/>
@@ -10,8 +12,9 @@
 
 <!-- The FILE and ASYNC appenders are here as examples for a production configuration -->
     <appender name="FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${LOG_DIR}/logFile.log</file>
         <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
-            <fileNamePattern>logFile.%d{yyyy-MM-dd}.log</fileNamePattern>
+            <fileNamePattern>${LOG_DIR}/archived/logFile.%d{yyyy-MM-dd}.log</fileNamePattern>
             <maxHistory>90</maxHistory>
         </rollingPolicy>
         <encoder>
