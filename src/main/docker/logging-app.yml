@@ -1,8 +1,9 @@
-version: "3"
+version: "3.7"
 
 services:
     nfsample-app:
         image: justinsam/logging-nf-sample
+        #image: nfsample
         container_name: logging-nf-sample
         environment:
         - _JAVA_OPTIONS=-Xmx512m -Xms256m
@@ -13,14 +14,24 @@ services:
         - NfSample.logback.fluentbit.port=7777
         ports:
         - "8080:8080"
+        #volumes:
+        #- ./fluentbit:/logs
         volumes:
-        - ./fluentbit:/logs
+        - type: volume
+          source: logs
+          target: /logs
 
     fluentb:
-        image: fluent/fluent-bit
+        #image: fluent/fluent-bit
+        build: "./fluentbit/"
+        image: docker.io/justinsam/fluent-bit
         container_name: fluentb
+        #volumes:
+        #- ./fluentbit:/fluent-bit/etc
         volumes:
-        - ./fluentbit:/fluent-bit/etc
+        - type: volume
+          source: logs
+          target: /logs
         command:
             ["/fluent-bit/bin/fluent-bit", "-c", "/fluent-bit/etc/fluentbit.conf"]
         restart: unless-stopped
@@ -30,21 +41,27 @@ services:
         - "7777:7777"
 
     fluentd:
-        image: qqbuby/fluentd:v1.2-es
+        #image: qqbuby/fluentd:v1.2-es
+        build: "./fluentd/"
+        image: docker.io/justinsam/fluentd
         container_name: fluentd
         ports:
         - "24224:24224"
         - "5140:5140"
-        volumes:
-        - ./fluentd:/fluentd/etc
+        #volumes:
+        #- ./fluentd:/fluentd/etc
 
     elasticsearch:
         image: docker.elastic.co/elasticsearch/elasticsearch:6.5.4
         container_name: elasticsearch
         environment:
             discovery.type: single-node
+        #volumes:
+        #- ./elasticsearch:/usr/share/elasticsearch/data
         volumes:
-        - ./elasticsearch:/usr/share/elasticsearch/data
+        - type: volume
+          source: elasticsearch
+          target: /usr/share/elasticsearch/data
         ports:
         - "9200:9200"
         - "9300:9300"
@@ -58,3 +75,7 @@ services:
         - "5601:5601"
         depends_on:
         - elasticsearch
+
+volumes:
+    logs:
+    elasticsearch:

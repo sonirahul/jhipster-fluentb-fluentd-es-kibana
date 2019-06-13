@@ -3,6 +3,8 @@ package com.hpe.observability.service;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.cloud.cloudfoundry.com.fasterxml.jackson.core.JsonProcessingException;
+import org.springframework.cloud.cloudfoundry.com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.stereotype.Service;
 
 import java.sql.Timestamp;
@@ -109,7 +111,7 @@ public class LoggerService {
         nff.put("runid", "8c75d1d3-a1f5-4464-ba9d-4a07c93b64");
     }
 
-    public void randomLog() {
+    public void randomLog() throws JsonProcessingException {
         int randomLevel = Integer.parseInt(RandomStringUtils.random(1, "01234"));
         int randomNFNumber = Integer.parseInt(RandomStringUtils.random(1, "012345"));
 
@@ -132,27 +134,30 @@ public class LoggerService {
         dataObj.put("key", "MONITORING_SUBSCRIPTION_REQUEST_VALIDATION_ERROR");
         dataObj.put("timestamp", SIMPLE_DATE_FORMAT.format(new Timestamp(System.currentTimeMillis())));
 
+        ObjectMapper mapper = new ObjectMapper();
+        String logText = mapper.writeValueAsString(dataObj);
+
         switch (LOG_LEVEL[randomLevel]) {
             case "TRACE" : {
-                LOGGER.trace("{}", dataObj);
+                LOGGER.trace(logText);
                 break;
             }case "INFO" : {
-                LOGGER.info("{}", dataObj);
+                LOGGER.info(logText);
                 break;
             }case "DEBUG" : {
-                LOGGER.debug("{}", dataObj);
+                LOGGER.debug(logText);
                 break;
             }case "WARN" : {
-                LOGGER.warn("{}", dataObj);
+                LOGGER.warn(logText);
                 break;
             }case "ERROR" : {
-                LOGGER.error("{}", dataObj);
+                LOGGER.error(logText);
                 break;
             }
         }
     }
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws JsonProcessingException {
         LoggerService service = new LoggerService();
         service.randomLog();
     }
