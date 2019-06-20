@@ -52,10 +52,14 @@ services:
         #- ./fluentd:/fluentd/etc
 
     elasticsearch:
+        #build: "./elasticsearch/"
+        #image: docker.io/justinsam/elasticsearch
         image: docker.elastic.co/elasticsearch/elasticsearch:6.5.4
         container_name: elasticsearch
         environment:
             discovery.type: single-node
+        #command:
+        #    ["bash", "/opt/kibana-dashboard-importer/kibana-dashboard-importer.sh"]
         #volumes:
         #- ./elasticsearch:/usr/share/elasticsearch/data
         #volumes:
