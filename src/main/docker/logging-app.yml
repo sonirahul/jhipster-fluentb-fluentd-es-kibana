@@ -10,7 +10,7 @@ services:
         - SPRING_PROFILES_ACTIVE=prod,swagger
         - MANAGEMENT_METRICS_EXPORT_PROMETHEUS_ENABLED=true
         - JHIPSTER_SLEEP=10 # gives time for the database to boot before the application
-        - NfSample.logback.fluentbit.host=192.168.200.201
+        - NfSample.logback.fluentbit.host=192.168.200.72
         - NfSample.logback.fluentbit.port=7777
         ports:
         - "8080:8080"

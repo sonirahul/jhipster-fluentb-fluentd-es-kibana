@@ -116,23 +116,24 @@ public class LoggerService {
         int randomNFNumber = Integer.parseInt(RandomStringUtils.random(1, "012345"));
 
         dataObj.put("date", SIMPLE_DATE_FORMAT.format(timestamp));
+        dataObj.put("hostname", nfList.get(randomNFNumber).get("hostname"));
         dataObj.put("level", LOG_LEVEL[randomLevel]);
         dataObj.put("catalog", nfList.get(randomNFNumber).get("catalog"));
-        dataObj.put("subsystem", nfList.get(randomNFNumber).get("subsystem"));
-        dataObj.put("message", nfList.get(randomNFNumber).get("message"));
-        dataObj.put("hostname", nfList.get(randomNFNumber).get("hostname"));
-        dataObj.put("service", nfList.get(randomNFNumber).get("service"));
         argsList.clear();
         argsList.add("4cbaeb2d-5878-4ca5-a8cf-" + nfList.get(randomNFNumber).get("subTag"));
         argsList.add("monitoringType");
         dataObj.put("arg", argsList);
-
-        dataObj.put("id", nfList.get(randomNFNumber).get("id"));
-        dataObj.put("runid", nfList.get(randomNFNumber).get("runid"));
+        dataObj.put("subsystem", nfList.get(randomNFNumber).get("subsystem"));
         dataObj.put("tag", nfList.get(randomNFNumber).get("catalog")
             + "_4cbaeb2d-5878-4ca5-a8cf-" + nfList.get(randomNFNumber).get("subTag"));
+        dataObj.put("message", nfList.get(randomNFNumber).get("message"));
         dataObj.put("key", "MONITORING_SUBSCRIPTION_REQUEST_VALIDATION_ERROR");
         dataObj.put("timestamp", SIMPLE_DATE_FORMAT.format(new Timestamp(System.currentTimeMillis())));
+
+
+        /*dataObj.put("service", nfList.get(randomNFNumber).get("service"));
+        dataObj.put("id", nfList.get(randomNFNumber).get("id"));
+        dataObj.put("runid", nfList.get(randomNFNumber).get("runid"));*/
 
         ObjectMapper mapper = new ObjectMapper();
         String logText = mapper.writeValueAsString(dataObj);

@@ -7,4 +7,4 @@ RUN ["chmod", "777", "-R", "/logs"]
 VOLUME ["/logs"]
 
 ADD ./fluentbit.conf /fluent-bit/etc/fluentbit.conf
-ADD ./parsers.conf /fluent-bit/etc/parsers.conf
+ADD ./custom_parsers.conf /fluent-bit/etc/custom_parsers.conf

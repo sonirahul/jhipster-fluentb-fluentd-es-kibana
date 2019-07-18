@@ -13,9 +13,20 @@
     <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
         <encoder>
             <pattern>
-                %d{dd-MM-yyyy HH:mm:ss.SSS} %magenta([%thread]) %highlight(%-5level) %logger.%M - %msg%n
+                %msg%n
             </pattern>
         </encoder>
+
+        <!--<encoder class="ch.qos.logback.core.encoder.LayoutWrappingEncoder">
+            <layout class="ch.qos.logback.contrib.json.classic.JsonLayout">
+                &lt;!&ndash;<timestampFormat>yyyy-MM-dd'T'HH:mm:ss.SSSX</timestampFormat>&ndash;&gt;
+                &lt;!&ndash;<timestampFormatTimezoneId>Etc/UTC</timestampFormatTimezoneId>&ndash;&gt;
+
+                <jsonFormatter class="ch.qos.logback.contrib.jackson.JacksonJsonFormatter">
+                    <prettyPrint>true</prettyPrint>
+                </jsonFormatter>
+            </layout>
+        </encoder>-->
     </appender>
 
     <!-- The FILE and ASYNC appenders are here as examples for a production configuration -->
@@ -61,15 +72,20 @@
           </jsonFormatter>
           <timestampFormat>yyyy-MM-dd' 'HH:mm:ss.SSS</timestampFormat>
         </layout>-->
-        <encoder class="ch.qos.logback.core.encoder.LayoutWrappingEncoder">
+        <!--<encoder class="ch.qos.logback.core.encoder.LayoutWrappingEncoder">
             <layout class="ch.qos.logback.contrib.json.classic.JsonLayout">
                 <timestampFormat>yyyy-MM-dd'T'HH:mm:ss.SSSX</timestampFormat>
-                <!--<timestampFormatTimezoneId>Etc/UTC</timestampFormatTimezoneId>-->
+                &lt;!&ndash;<timestampFormatTimezoneId>Etc/UTC</timestampFormatTimezoneId>&ndash;&gt;
 
                 <jsonFormatter class="ch.qos.logback.contrib.jackson.JacksonJsonFormatter">
                     <prettyPrint>true</prettyPrint>
                 </jsonFormatter>
             </layout>
+        </encoder>-->
+        <encoder>
+            <pattern>
+                %msg%n
+            </pattern>
         </encoder>
 
     </appender>
