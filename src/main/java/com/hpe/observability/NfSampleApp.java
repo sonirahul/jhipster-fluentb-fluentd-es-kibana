@@ -5,6 +5,9 @@ import com.hpe.observability.config.DefaultProfileUtil;
 
 import io.github.jhipster.config.JHipsterConstants;
 
+import io.jaegertracing.Configuration;
+import io.jaegertracing.internal.samplers.ConstSampler;
+import io.opentracing.Tracer;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -12,6 +15,7 @@ import org.springframework.beans.factory.InitializingBean;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
+import org.springframework.context.annotation.Bean;
 import org.springframework.core.env.Environment;
 
 import java.net.InetAddress;
@@ -93,5 +97,21 @@ public class NfSampleApp implements InitializingBean {
             serverPort,
             contextPath,
             env.getActiveProfiles());
+    }
+
+    @Bean
+    public Tracer tracer() {
+        Configuration.SamplerConfiguration samplerConfig = Configuration.SamplerConfiguration.fromEnv()
+            .withType(ConstSampler.TYPE)
+            .withParam(1);
+
+        Configuration.ReporterConfiguration reporterConfig = Configuration.ReporterConfiguration.fromEnv()
+            .withLogSpans(true);
+
+        Configuration config = new Configuration("animal-svc")
+            .withSampler(samplerConfig)
+            .withReporter(reporterConfig);
+
+        return config.getTracer();
     }
 }

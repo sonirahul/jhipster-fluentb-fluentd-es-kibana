@@ -71,7 +71,9 @@ services:
         - "9300:9300"
 
     kibana:
-        image: docker.elastic.co/kibana/kibana:6.5.4
+        #image: docker.elastic.co/kibana/kibana:6.5.4
+        build: "./kibana"
+        image: docker.io/justinsam/kibana
         container_name: kibana
         environment:
             ELASTICSEARCH_URL: "http://elasticsearch:9200"
