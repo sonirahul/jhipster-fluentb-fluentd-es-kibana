@@ -19,16 +19,13 @@ logging:
     com.hpe.observability: INFO
     io.github.jhipster: INFO
 
-#management:
-#  metrics:
-#    export:
-#      prometheus:
-#        enabled: false
+management:
+  metrics:
+    export:
+      prometheus:
+        enabled: false
 
 spring:
-  profiles:
-    include:
-      - swagger
   devtools:
     restart:
       enabled: false

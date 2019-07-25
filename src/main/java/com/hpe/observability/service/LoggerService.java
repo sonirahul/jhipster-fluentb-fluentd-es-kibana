@@ -124,8 +124,10 @@ public class LoggerService {
         argsList.add("monitoringType");
         dataObj.put("arg", argsList);
         dataObj.put("subsystem", nfList.get(randomNFNumber).get("subsystem"));
+        dataObj.put("runid", nfList.get(randomNFNumber).get("runid"));
         dataObj.put("tag", nfList.get(randomNFNumber).get("catalog")
             + "_4cbaeb2d-5878-4ca5-a8cf-" + nfList.get(randomNFNumber).get("subTag"));
+        dataObj.put("extra1", "value1");
         dataObj.put("message", nfList.get(randomNFNumber).get("message"));
         dataObj.put("key", "MONITORING_SUBSCRIPTION_REQUEST_VALIDATION_ERROR");
         dataObj.put("timestamp", SIMPLE_DATE_FORMAT.format(new Timestamp(System.currentTimeMillis())));
@@ -133,7 +135,7 @@ public class LoggerService {
 
         /*dataObj.put("service", nfList.get(randomNFNumber).get("service"));
         dataObj.put("id", nfList.get(randomNFNumber).get("id"));
-        dataObj.put("runid", nfList.get(randomNFNumber).get("runid"));*/
+        */
 
         ObjectMapper mapper = new ObjectMapper();
         String logText = mapper.writeValueAsString(dataObj);

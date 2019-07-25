@@ -1,4 +1,4 @@
-FROM fluent/fluent-bit:1.0.4-debug
+FROM fluent/fluent-bit:1.2.2-debug
 
 #RUN mkdir -p /logs && chmod 777 -R /logs
 RUN ["mkdir", "-p", "/logs"]
